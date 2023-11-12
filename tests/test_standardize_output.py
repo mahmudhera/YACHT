@@ -39,7 +39,7 @@ class TestScript(unittest.TestCase):
         assert os.path.exists(outdir)
         
         cmd = f"python {script_full_path} --yacht_output {yacht_output} --sheet_name min_coverage0.2 --genome_to_taxid {genome_to_taxid} --outfile_prefix cami_result --outdir {outdir}"
-        with self.assertRaises(ValueError):
+        with self.assertRaises(subprocess.CalledProcessError):
             res = subprocess.run(cmd, shell=True, check=True)
 
 
