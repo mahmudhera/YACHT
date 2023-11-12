@@ -31,7 +31,7 @@ class TestScript(unittest.TestCase):
 
         yacht_output = os.path.join(os.path.dirname(__file__), 'testdata/standardize_output_testdata/result_nonexisting.xlsx')
         assert not os.path.exists(yacht_output)
-        
+
         genome_to_taxid = os.path.join(os.path.dirname(__file__), 'testdata/standardize_output_testdata/toy_genome_to_taxid.tsv')
         assert os.path.exists(genome_to_taxid)
 
@@ -39,12 +39,12 @@ class TestScript(unittest.TestCase):
         assert os.path.exists(outdir)
 
         cmd = f"python {script_full_path} --sheet_name min_coverage0.2 --genome_to_taxid {genome_to_taxid} --outfile_prefix cami_result --outdir {outdir}"
-        res = subprocess.run(cmd, shell=True, check=False)
-        assert res.returncode == 1
-
+        with self.assertRaises(ValueError):
+            res = subprocess.run(cmd, shell=True, check=True)
+        
         cmd = f"python {script_full_path} --yacht_output {yacht_output} --sheet_name min_coverage0.2 --genome_to_taxid {genome_to_taxid} --outfile_prefix cami_result --outdir {outdir}"
-        res = subprocess.run(cmd, shell=True, check=True)
-        assert res.returncode == 1
+        with self.assertRaises(ValueError):
+            res = subprocess.run(cmd, shell=True, check=True)
 
 
 if __name__ == '__main__':
