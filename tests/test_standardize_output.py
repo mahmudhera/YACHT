@@ -76,9 +76,17 @@ class TestScript(unittest.TestCase):
         outdir = os.path.join(os.path.dirname(__file__), 'testdata_nonexisting')
         assert not os.path.exists(outdir)
 
+        cmd = 'rm -rf ' + outdir
+        subprocess.run(cmd, shell=True, check=True)
+
         cmd = f"python {script_full_path} --yacht_output {yacht_output} --sheet_name min_coverage0.2 --genome_to_taxid {genome_to_taxid} --outfile_prefix cami_result --outdir {outdir}"
-        with self.assertRaises(subprocess.CalledProcessError):
-            res = subprocess.run(cmd, shell=True, check=True)
+        res = subprocess.run(cmd, shell=True, check=True)
+        assert res.returncode == 0
+        assert os.path.exists(outdir)
+
+        cmd = 'rm -rf ' + outdir
+        res = subprocess.run(cmd, shell=True, check=True)
+        assert res.returncode == 0
 
 
 if __name__ == '__main__':
