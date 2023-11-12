@@ -73,12 +73,12 @@ class TestScript(unittest.TestCase):
         genome_to_taxid = os.path.join(os.path.dirname(__file__), 'testdata/standardize_output_testdata/toy_genome_to_taxid.tsv')
         assert os.path.exists(genome_to_taxid)
 
+        outdir = os.path.join(os.path.dirname(__file__), 'testdata_nonexisting')
         cmd = 'rm -rf ' + outdir
         try:
             subprocess.run(cmd, shell=True, check=True)
         except:
             pass
-        outdir = os.path.join(os.path.dirname(__file__), 'testdata_nonexisting')
         assert not os.path.exists(outdir)
 
         cmd = f"python {script_full_path} --yacht_output {yacht_output} --sheet_name min_coverage0.2 --genome_to_taxid {genome_to_taxid} --outfile_prefix cami_result --outdir {outdir}"
