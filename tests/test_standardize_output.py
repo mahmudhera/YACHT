@@ -3,7 +3,7 @@ import os
 import subprocess
 
 class TestScript:
-    def test_everything_exists():
+    def test_everything_exists(self):
         script_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         script_dir = os.path.join(script_dir, 'srcs')
         script_full_path = os.path.join(script_dir, 'standardize_yacht_output.py')
