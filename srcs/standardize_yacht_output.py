@@ -263,7 +263,23 @@ class StandardizeYachtOutput:
         
         # save the file
         self.__savefile(output_format, path_to_outdir, result, fileprefix)
-        
+
+def check_everything_exists(yacht_output, genome_to_taxid, outdir):
+    # check if the yacht output file exists
+    if not os.path.exists(yacht_output):
+        logger.error(f"{yacht_output} does not exist.")
+        raise ValueError
+    
+    # check if the genome to taxid file exists
+    if not os.path.exists(genome_to_taxid):
+        logger.error(f"{genome_to_taxid} does not exist.")
+        raise ValueError
+    
+    # check if the output directory exists and create it if not
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="This script convert YACHT output to a format (options: CAMI, BIOM, GraphPlAn).",
@@ -287,19 +303,7 @@ if __name__ == "__main__":
     outfile_prefix = args.outfile_prefix
     outdir = args.outdir
     
-    # check if the yacht output file exists
-    if not os.path.exists(yacht_output):
-        logger.error(f"{yacht_output} does not exist.")
-        raise ValueError
-    
-    # check if the genome to taxid file exists
-    if not os.path.exists(genome_to_taxid):
-        logger.error(f"{genome_to_taxid} does not exist.")
-        raise ValueError
-    
-    # check if the output directory exists and create it if not
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
+    check_everything_exists(yacht_output, genome_to_taxid, outdir)  
         
     # load the yacht output
     yacht_output_df = pd.read_excel(yacht_output, sheet_name=sheet_name, engine='openpyxl')
