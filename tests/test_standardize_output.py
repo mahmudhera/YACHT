@@ -74,7 +74,10 @@ class TestScript(unittest.TestCase):
         assert os.path.exists(genome_to_taxid)
 
         cmd = 'rm -rf ' + outdir
-        subprocess.run(cmd, shell=True, check=True)
+        try:
+            subprocess.run(cmd, shell=True, check=True)
+        except:
+            pass
         outdir = os.path.join(os.path.dirname(__file__), 'testdata_nonexisting')
         assert not os.path.exists(outdir)
 
